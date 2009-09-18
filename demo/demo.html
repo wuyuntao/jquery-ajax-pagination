@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <title>Ajax Pagination Demo</title>
+        <style>
+            #pagination {
+                width: 800px
+                text-align: center;
+            }
+
+            #pagination ul.paginator {
+                list-style-type: none;
+            }
+
+            #pagination ul.paginator li {
+                display: block;
+                float: left;
+            }
+
+            #pagination ul.paginator li a {
+                display: block;
+                line-height: 20px;
+                padding: 0 4px;
+                background: white;
+                border: blue 1px solid;
+                color: blue;
+                text-decoration: none;;
+            }
+
+            #pagination ul.paginator li a:hover {
+                background: blue;
+                color: white;
+            }
+
+            #pagination ul.paginator li.current a {
+                background: blue;
+                color: white;
+            }
+
+            #pagination ul.paginator li.leading a {
+                color: red!important;
+            }
+
+            #pagination ul.paginator li.adjacent a {
+                color: blue!important;
+            }
+
+            #pagination ul.paginator li.trailing a {
+                color: green!important;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="pagination"></div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+        <script src="/pagination.js"></script>
+        <script>
+            $(function() {
+                $('#pagination').ajaxPagination({
+                    url: '/demo?page=#{id}',
+                    cache: true,
+                    currentPage: 3,
+                    maxEntries: 17,
+                    itemsPerPage: 1,
+                    numDisplayEntries: 5,
+                    numEdgeEntries: 2,
+                    basePage: 1,
+                    prevText: 'Previous',
+                    nextText: 'Next'
+                });
+            });
+        </script>
+    </body>
+</html>

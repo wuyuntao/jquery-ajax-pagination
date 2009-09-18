@@ -1,0 +1,12 @@
+application: demo
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /pagination.js
+  static_files: pagination.js
+  upload: pagination.js
+
+- url: /demo
+  script: demo.py
