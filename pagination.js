@@ -30,10 +30,10 @@ $.widget('ui.ajaxPagination', {
                 np = this.numPages(),
                 num = num < bp ? bp : (num > bp + np ? bp + np : num),
                 options = $.extend({ text: num, classes: 'page' }, options || {}),
-                page = $('<li></li>').appendTo(this.paginator()),
+                page = $('<li></li>').addClass(options.classes || '')
+                                     .appendTo(this.paginator()),
                 link = $('<a></a>').attr('href', this._url(num))
                                    .attr('id', 'page-' + num)
-                                   .addClass(options.classes || '')
                                    .text(options.text)
                                    .bind('click.pagination', select)
                                    .appendTo(page);
@@ -136,7 +136,7 @@ $.widget('ui.ajaxPagination', {
         this.paginator({ refresh: true });
         this.content(num);
     },
-    /** 
+    /**
      * Select previous page
      */
     previous: function() {
@@ -147,7 +147,7 @@ $.widget('ui.ajaxPagination', {
             return false;
         }
     },
-    /** 
+    /**
      * Select next page
      */
     next: function() {
@@ -162,11 +162,11 @@ $.widget('ui.ajaxPagination', {
      * Calculate the maximum number of pages
      */
     numPages: function() {
-        return Math.ceil((this._getData('maxEntries') - 
+        return Math.ceil((this._getData('maxEntries') -
                 this._getData('basePage')) / this._getData('itemsPerPage'));
     },
     /**
-     * Calculate start and end point of page links depending on 
+     * Calculate start and end point of page links depending on
      * ``basePage``, ``currentPage`` and ``numDisplayEntries``.
      */
     displayPages: function() {
@@ -180,8 +180,8 @@ $.widget('ui.ajaxPagination', {
             start = current > half ?
                     Math.max(Math.min(current - half + 1, limit), base) : base,
             end = current > half ?
-                    Math.min(start + display - 1, total) : 
-                    Math.min(base + display - 1, total);
+                    Math.min(start + display - 1, total -1) :
+                    Math.min(base + display - 1, total - 1);
             return [start, end];
         } else {
             return [total + 1, base - 1];
@@ -207,9 +207,9 @@ $.widget('ui.ajaxPagination', {
         }
     },
     _next: function() {
-        if(this._getData('nextText') && this._getData('currentPage') <
-           this._getData('basePage') + this.numPages() ||
-           this._getData('nextShowAlways')) {
+        if (this._getData('nextText') && this._getData('currentPage') <
+            this._getData('basePage') + this.numPages() - 1 ||
+            this._getData('nextShowAlways')) {
             this.page(this._getData('currentPage') + 1, {
                 text: this._getData('nextText'),
                 classes: "next"
@@ -246,7 +246,7 @@ $.widget('ui.ajaxPagination', {
                 this._ellipse();
             }
             var start = Math.max(total - edge + 1, trailing + 1);
-            for(var i = start; i <= total; ++i) {
+            for(var i = start; i < total; ++i) {
                 this.page(i);
             }
         }
@@ -273,8 +273,8 @@ $.extend($.ui.ajaxPagination, {
         numDisplayEntries: 4,
         numEdgeEntries: 2,
         linkTo: "#page/#{id}/",
-        prevText: "前一页",
-        nextText: "后一页",
+        prevText: "<< 前一页",
+        nextText: "后一页 >>",
         ellipseText: "...",
         prevShowAlways: false,
         nextShowAlways: false,
